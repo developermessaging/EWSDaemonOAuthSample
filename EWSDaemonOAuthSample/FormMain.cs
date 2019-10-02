@@ -100,7 +100,7 @@ namespace EWSDaemonOAuthSample
             listBoxLog.Items.Add(Log);
         }
 
-        private async Task<bool> GetAuthToken()
+        private async Task<bool> GetAuthTokenAsync()
         {
             if (HaveAuthToken() && !_oAuthHelper.ObtainUserConsent)
             {
@@ -110,7 +110,7 @@ namespace EWSDaemonOAuthSample
 
             Log("Acquiring auth token");
             ConfigureOAuthHelper();
-            await _oAuthHelper.AcquireDelegateToken(textBoxEWSMailbox.Text);
+            await _oAuthHelper.AcquireDelegateTokenAsync(textBoxEWSMailbox.Text);
             UpdateEWSUI();
             if (!String.IsNullOrEmpty(_oAuthHelper.Token))
             {
@@ -219,7 +219,9 @@ namespace EWSDaemonOAuthSample
             // Note that we don't wait for the next async call to complete, as if we do we'll lock up the UI
             // We're not waiting on the result, so may as well return immediately
             _oAuthHelper.ObtainUserConsent = false;
-            GetAuthToken();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            GetAuthTokenAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         private void textBoxTenantId_TextChanged(object sender, EventArgs e)
@@ -274,7 +276,9 @@ namespace EWSDaemonOAuthSample
         private void buttonUserConsent_Click(object sender, EventArgs e)
         {
             _oAuthHelper.ObtainUserConsent = true;
-            GetAuthToken();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            GetAuthTokenAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         private void buttonManageTokens_Click(object sender, EventArgs e)

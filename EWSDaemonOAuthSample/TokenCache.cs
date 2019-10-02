@@ -24,7 +24,7 @@ namespace EWSDaemonOAuthSample
             this.BeforeAccess = BeforeAccessNotification;
             lock (fileLock)
             {
-                this.Deserialize(File.Exists(cacheFilePath) ?
+                this.DeserializeAdalV3(File.Exists(cacheFilePath) ?
                      ProtectedData.Unprotect(File.ReadAllBytes(cacheFilePath), null,
                                              DataProtectionScope.CurrentUser)
                                                             : null);
@@ -44,7 +44,7 @@ namespace EWSDaemonOAuthSample
         {
             lock (fileLock)
             {
-                this.Deserialize(File.Exists(cacheFilePath) ?
+                this.DeserializeAdalV3(File.Exists(cacheFilePath) ?
                                  ProtectedData.Unprotect(File.ReadAllBytes(cacheFilePath), null,
                                                          DataProtectionScope.CurrentUser)
                                                             : null);
@@ -60,7 +60,7 @@ namespace EWSDaemonOAuthSample
                 lock (fileLock)
                 {
                     // reflect changes in the persistent store
-                    File.WriteAllBytes(cacheFilePath, ProtectedData.Protect(this.Serialize(), null, DataProtectionScope.CurrentUser));
+                    File.WriteAllBytes(cacheFilePath, ProtectedData.Protect(this.SerializeAdalV3(), null, DataProtectionScope.CurrentUser));
                     // once the write operation took place, restore the HasStateChanged bit to false
                     this.HasStateChanged = false;
                 }

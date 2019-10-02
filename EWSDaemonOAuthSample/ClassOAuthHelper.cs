@@ -169,7 +169,7 @@ namespace EWSDaemonOAuthSample
 
             try
             {
-                AcquireDelegateToken(_authenticationResult.UserInfo.UniqueId).Wait(10000);
+                AcquireDelegateTokenAsync(_authenticationResult.UserInfo.UniqueId).Wait(10000);
             }
             catch
             {
@@ -193,7 +193,7 @@ namespace EWSDaemonOAuthSample
             
         }
 
-        public async Task AcquireDelegateToken(string UserId = "")
+        public async Task AcquireDelegateTokenAsync(string UserId = "")
         {
             string configError = String.Empty;
             if ((_authenticationUrl == String.Empty)) configError = "Authentication Url must be set.";
@@ -237,7 +237,7 @@ namespace EWSDaemonOAuthSample
 
             try
             {
-                _authenticationResult = await GetToken(oAuthContext);
+                _authenticationResult = await GetTokenAsync(oAuthContext);
             }
             catch (Exception ex)
             {
@@ -249,7 +249,7 @@ namespace EWSDaemonOAuthSample
                 _acquireTokenInProgress.Remove(UserId);
         }
 
-        public static async Task<AuthenticationResult> GetToken(OAuthContext oAuthContext)
+        public static async Task<AuthenticationResult> GetTokenAsync(OAuthContext oAuthContext)
         {
             // Get OAuth token using client credentials 
             string tenantName = oAuthContext.tenantName;
